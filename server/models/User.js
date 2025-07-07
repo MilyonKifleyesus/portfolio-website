@@ -35,9 +35,11 @@ const userSchema = new mongoose.Schema({
 
 // Pre-save middleware to hash password
 userSchema.pre('save', async function(next) {
+    // Only hash the password if it has been modified (or is new)
     if (!this.isModified('password')) return next();
     
     try {
+        // Hash password with cost of 12
         const salt = await bcrypt.genSalt(12);
         this.password = await bcrypt.hash(this.password, salt);
         this.updated = Date.now();
@@ -45,6 +47,12 @@ userSchema.pre('save', async function(next) {
     } catch (error) {
         next(error);
     }
+});
+
+// Pre-update middleware to update the 'updated' field
+userSchema.pre('findOneAndUpdate', function(next) {
+    this.set({ updated: Date.now() });
+    next();
 });
 
 // Compare password method

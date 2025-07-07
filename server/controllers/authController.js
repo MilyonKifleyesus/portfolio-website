@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 // Generate JWT token
 const generateToken = (userId) => {
@@ -21,8 +22,8 @@ const signin = async (req, res) => {
             });
         }
 
-        // Find user by email
-        const user = await User.findOne({ email }).select('+password');
+        // Find user by email and include password for comparison
+        const user = await User.findOne({ email });
         
         if (!user) {
             return res.status(401).json({
@@ -31,7 +32,7 @@ const signin = async (req, res) => {
             });
         }
 
-        // Check password
+        // Check password using the comparePassword method
         const isPasswordMatch = await user.comparePassword(password);
         
         if (!isPasswordMatch) {
@@ -51,7 +52,9 @@ const signin = async (req, res) => {
             user: {
                 id: user._id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                created: user.created,
+                updated: user.updated
             }
         });
     } catch (error) {
@@ -76,6 +79,14 @@ const signup = async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
+        // Validate required fields
+        if (!name || !email || !password) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide name, email, and password'
+            });
+        }
+
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -86,7 +97,11 @@ const signup = async (req, res) => {
         }
 
         // Create new user
-        const user = await User.create({ name, email, password });
+        const user = await User.create({ 
+            name, 
+            email, 
+            password 
+        });
 
         // Generate token
         const token = generateToken(user._id);
@@ -98,7 +113,9 @@ const signup = async (req, res) => {
             user: {
                 id: user._id,
                 name: user.name,
-                email: user.email
+                email: user.email,
+                created: user.created,
+                updated: user.updated
             }
         });
     } catch (error) {
