@@ -40,9 +40,9 @@ mongoose
   });
 
 // Routes - tell server what to do for different URLs
-app.use("/api/contact", contactRoutes);
-app.use("/api/project", projectRoutes);
-app.use("/api/qualification", qualificationRoutes);
+app.use("/api/contacts", contactRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/qualifications", qualificationRoutes);
 app.use("/api/users", userRoutes);
 
 // Root route - what happens when someone visits just "/"
