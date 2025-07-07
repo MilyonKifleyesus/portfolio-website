@@ -7,6 +7,7 @@ const path = require("path");
 const contactRoutes = require("./routes/contactRoutes");
 const projectRoutes = require("./routes/projectRoutes");
 const qualificationRoutes = require("./routes/qualificationRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ mongoose
 app.use("/api/contact", contactRoutes);
 app.use("/api/project", projectRoutes);
 app.use("/api/qualification", qualificationRoutes);
+app.use("/api/users", userRoutes);
 
 // Root route - what happens when someone visits just "/"
 app.get("/", (req, res) => {
