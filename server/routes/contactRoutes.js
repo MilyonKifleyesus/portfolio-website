@@ -7,20 +7,21 @@ const {
   deleteContact,
   deleteAllContacts,
 } = require("../controllers/contactController");
+const { protect } = require("../middleware/auth");
 
 const router = express.Router();
 
-// Routes
+// Routes - All protected with authentication
 router
   .route("/")
-  .get(getContacts)
-  .post(createContact)
-  .delete(deleteAllContacts);
+  .get(protect, getContacts)
+  .post(protect, createContact)
+  .delete(protect, deleteAllContacts);
 
 router
   .route("/:id")
-  .get(getContactById)
-  .put(updateContact)
-  .delete(deleteContact);
+  .get(protect, getContactById)
+  .put(protect, updateContact)
+  .delete(protect, deleteContact);
 
 module.exports = router;
