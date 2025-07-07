@@ -8,6 +8,7 @@ const contactRoutes = require("./routes/contactRoutes");
 const projectRoutes = require("./routes/projectRoutes");
 const qualificationRoutes = require("./routes/qualificationRoutes");
 const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ app.use("/api/contacts", contactRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/qualifications", qualificationRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 
 // Root route - what happens when someone visits just "/"
 app.get("/", (req, res) => {
@@ -56,10 +58,9 @@ app.get("/", (req, res) => {
             <li>GET /api/projects - Get all projects</li>
             <li>GET /api/qualifications - Get all qualifications</li>
             <li>GET /api/users - Get all users</li>
+            <li>POST /api/auth - Authentication endpoints</li>
         </ul>
     `);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+module.exports = app;
