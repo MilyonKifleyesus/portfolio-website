@@ -24,4 +24,4 @@ router
   .put(updateQualification) // PUT /api/qualifications/:id - update qualification by id
   .delete(deleteQualification); // DELETE /api/qualifications/:id - remove qualification by id
 
-export default router;
+module.exports = router;

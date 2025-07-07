@@ -23,4 +23,4 @@ router
   .put(updateContact)
   .delete(deleteContact);
 
-export default router;
+module.exports = router;

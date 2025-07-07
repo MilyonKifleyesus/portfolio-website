@@ -1,14 +1,12 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import dotenv from "dotenv";
-import path from "path";
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const path = require("path");
 
-import contactRoutes from "./server/routes/contactRoutes.js";
-import projectRoutes from "./server/routes/projectRoutes.js";
-import qualificationRoutes from "./server/routes/qualificationRoutes.js";
-import userRoutes from "./server/routes/userRoutes.js";
-import authRoutes from "./server/routes/authRoutes.js";
+const contactRoutes = require("./routes/contactRoutes");
+const projectRoutes = require("./routes/projectRoutes");
+const qualificationRoutes = require("./routes/qualificationRoutes");
 
 dotenv.config();
 
@@ -23,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "client/dist")));
 
 // Import config
-import config from "../config/config.js";
+const config = require("../config/config.js");
 
 // MongoDB connection
 mongoose
@@ -40,12 +38,10 @@ mongoose
     process.exit(1);
   });
 
-// Routes - tell server what to do for differnt URLS
+// Routes - tell server what to do for different URLs
 app.use("/api/contact", contactRoutes);
 app.use("/api/project", projectRoutes);
 app.use("/api/qualification", qualificationRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/auth", authRoutes);
 
 // Root route - what happens when someone visits just "/"
 app.get("/", (req, res) => {

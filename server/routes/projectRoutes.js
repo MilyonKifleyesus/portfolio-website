@@ -23,4 +23,4 @@ router
   .put(updateProject)
   .delete(deleteProject);
 
-export default router;
+module.exports = router;
