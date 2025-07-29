@@ -12,4 +12,7 @@ const config = {
       (process.env.MONGO_PORT || "27017") +
       "/mernproject",
 };
-module.exports = config;
+module.exports = {
+  mongoUri: process.env.MONGODB_URI || "mongodb://localhost:27017/portfolio",
+  jwtSecret: process.env.JWT_SECRET || "your-secret-key",
+};
