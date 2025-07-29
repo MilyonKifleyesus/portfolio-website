@@ -2,43 +2,45 @@ const mongoose = require("mongoose");
 
 const qualificationSchema = new mongoose.Schema(
   {
-    title: {
+    degree: {
       type: String,
-      required: [true, "Qualification title is required"],
+      required: [true, "Degree is required"],
       trim: true,
-      maxlength: [100, "Title cannot exceed 100 characters"],
+      maxlength: [100, "Degree cannot exceed 100 characters"],
     },
-    firstname: {
+    institution: {
       type: String,
-      required: [true, "First name is required"],
+      required: [true, "Institution is required"],
       trim: true,
-      maxlength: [50, "First name cannot exceed 50 characters"],
+      maxlength: [200, "Institution cannot exceed 200 characters"],
     },
-    lastname: {
+    field: {
       type: String,
-      required: [true, "Last name is required"],
+      required: [true, "Field of study is required"],
       trim: true,
-      maxlength: [50, "Last name cannot exceed 50 characters"],
+      maxlength: [100, "Field cannot exceed 100 characters"],
     },
-    email: {
-      type: String,
-      required: [true, "Email is required"],
-      trim: true,
-      lowercase: true,
-      match: [
-        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-        "Please enter a valid email",
-      ],
-    },
-    completion: {
+    startDate: {
       type: Date,
-      required: [true, "Completion date is required"],
+      required: [true, "Start date is required"],
+    },
+    endDate: {
+      type: Date,
     },
     description: {
       type: String,
-      required: [true, "Description is required"],
       trim: true,
       maxlength: [1000, "Description cannot exceed 1000 characters"],
+    },
+    grade: {
+      type: String,
+      trim: true,
+      maxlength: [50, "Grade cannot exceed 50 characters"],
+    },
+    type: {
+      type: String,
+      enum: ["education", "certification", "experience"],
+      default: "education",
     },
   },
   {

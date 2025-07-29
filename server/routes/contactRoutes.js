@@ -7,21 +7,21 @@ const {
   deleteContact,
   deleteAllContacts,
 } = require("../controllers/contactController");
-const { protect } = require("../middleware/auth");
+const { protect, authorize } = require("../middleware/auth");
 
 const router = express.Router();
 
-// Routes - All protected with authentication
+// Routes - Public read access, Admin write access
 router
   .route("/")
-  .get(protect, getContacts)
-  .post(protect, createContact)
-  .delete(protect, deleteAllContacts);
+  .get(getContacts) // Public read access
+  .post(createContact) // Public create access for contact form
+  .delete(protect, authorize('admin'), deleteAllContacts); // Admin only
 
 router
   .route("/:id")
-  .get(protect, getContactById)
-  .put(protect, updateContact)
-  .delete(protect, deleteContact);
+  .get(getContactById) // Public read access
+  .put(protect, authorize('admin'), updateContact) // Admin only
+  .delete(protect, authorize('admin'), deleteContact); // Admin only
 
 module.exports = router;

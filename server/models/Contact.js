@@ -2,17 +2,11 @@ const mongoose = require("mongoose");
 
 const contactSchema = new mongoose.Schema(
   {
-    firstname: {
+    name: {
       type: String,
-      required: [true, "First name is required"],
+      required: [true, "Name is required"],
       trim: true,
-      maxlength: [50, "First name cannot exceed 50 characters"],
-    },
-    lastname: {
-      type: String,
-      required: [true, "Last name is required"],
-      trim: true,
-      maxlength: [50, "Last name cannot exceed 50 characters"],
+      maxlength: [100, "Name cannot exceed 100 characters"],
     },
     email: {
       type: String,
@@ -23,6 +17,12 @@ const contactSchema = new mongoose.Schema(
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
         "Please enter a valid email",
       ],
+    },
+    message: {
+      type: String,
+      required: [true, "Message is required"],
+      trim: true,
+      maxlength: [2000, "Message cannot exceed 2000 characters"],
     },
   },
   {

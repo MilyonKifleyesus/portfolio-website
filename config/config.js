@@ -4,7 +4,7 @@ const config = {
   jwtSecret: process.env.JWT_SECRET || "YOUR_secret_key",
   mongoUri:
     process.env.MONGODB_URI ||
-    "mongodb+srv://milikifleyesus:KGMYLxIYWcNkRN8I@portfolio.c4rjrao.mongodb.net/?retryWrites=true&w=majority&appName=Portfolio" ||
+    "mongodb+srv://millikifleyesus:PZzRf84p2NJcX4tG@portfolio.26fxw3c.mongodb.net/?retryWrites=true&w=majority&appName=Portfolio" ||
     process.env.MONGO_HOST ||
     "mongodb://" +
       (process.env.IP || "localhost") +

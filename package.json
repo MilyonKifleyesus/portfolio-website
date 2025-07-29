@@ -18,7 +18,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "build": "cd client && yarn build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "cd client && yarn preview"
+    "preview": "cd client && yarn preview",
+    "seed-admin": "node server/seedAdmin.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -31,6 +32,7 @@
     "global": "^4.4.0",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.15.0"
+    "mongoose": "^8.15.0",
+    "multer": "^2.0.2"
   }
 }
