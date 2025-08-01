@@ -1,4 +1,15 @@
 import { useState } from "react";
+import {
+  Mail,
+  MapPin,
+  Linkedin,
+  Phone,
+  Send,
+  CheckCircle2,
+} from "lucide-react";
+import Silk from "../components/Silk";
+import Footer from "../components/layout/Footer";
+import { motion } from "framer-motion";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -57,99 +68,216 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-dark-900 text-white pt-24 pb-16">
-      <div className="max-w-4xl mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Get In Touch</h1>
-          <p className="text-base text-indigo-200/90 mb-8">
-            Have a question or want to work together? I'd love to hear from you.
-          </p>
+    <div className="min-h-screen relative">
+      <Silk
+        speed={5}
+        scale={1}
+        color="#7B7481"
+        noiseIntensity={1.5}
+        rotation={0}
+      />
+
+      {/* Header Section */}
+      <section className="pt-32 pb-20 md:pt-36 md:pb-28">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+              <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Get In Touch
+              </span>
+            </h1>
+            <p className="text-indigo-300 max-w-3xl mx-auto text-lg">
+              Have a question or want to work together? I'd love to hear from
+              you. Let's discuss your next project!
+            </p>
+          </motion.div>
+
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="max-w-2xl mx-auto"
+          >
+            <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
+              {showSuccess && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="mb-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-300 flex items-center"
+                >
+                  <CheckCircle2 size={20} className="mr-2" />
+                  Message sent successfully! I'll get back to you soon.
+                </motion.div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium mb-2 text-indigo-200"
+                  >
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20 transition-all duration-300"
+                    placeholder="Your name"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium mb-2 text-indigo-200"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20 transition-all duration-300"
+                    placeholder="your.email@example.com"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium mb-2 text-indigo-200"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={6}
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20 transition-all duration-300 resize-none"
+                    placeholder="Tell me about your project or ask me anything..."
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Send size={18} className="mr-2" />
+                      Send Message
+                    </>
+                  )}
+                </button>
+              </form>
+            </div>
+          </motion.div>
         </div>
+      </section>
 
-        {/* Contact Form */}
-        <div className="bg-white/10 backdrop-blur-xl rounded-3xl p-8 border border-white/20 shadow-2xl">
-          {showSuccess && (
-            <div className="mb-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg text-green-300">
-              Message sent successfully! I'll get back to you soon.
-            </div>
-          )}
+      {/* Contact Info Section */}
+      <section className="pb-20">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+                Other Ways to Connect
+              </span>
+            </h2>
+            <p className="text-indigo-300 max-w-2xl mx-auto">
+              Prefer a different way to get in touch? Here are some alternative
+              ways to reach me.
+            </p>
+          </motion.div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-400"
-                placeholder="Your name"
-                required
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-400"
-                placeholder="your.email@example.com"
-                required
-              />
-            </div>
-
-            <div>
-              <label
-                htmlFor="message"
-                className="block text-sm font-medium mb-2"
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                icon: <Mail size={32} />,
+                title: "Email",
+                value: "milyon.kifleyesus@example.com",
+                link: "mailto:milyon.kifleyesus@example.com",
+                description: "Send me an email anytime",
+              },
+              {
+                icon: <Phone size={32} />,
+                title: "Phone",
+                value: "+1 (555) 123-4567",
+                link: "tel:+15551234567",
+                description: "Call me during business hours",
+              },
+              {
+                icon: <MapPin size={32} />,
+                title: "Location",
+                value: "Toronto, Canada",
+                link: "#",
+                description: "Based in Toronto, Ontario",
+              },
+              {
+                icon: <Linkedin size={32} />,
+                title: "LinkedIn",
+                value: "linkedin.com/in/milyon",
+                link: "https://linkedin.com/in/milyon",
+                description: "Connect with me professionally",
+              },
+            ].map((contact, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+                className="group"
               >
-                Message
-              </label>
-              <textarea
-                id="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows={6}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-400 resize-none"
-                placeholder="Tell me about your project or ask me anything..."
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-indigo-600 hover:to-purple-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? "Sending..." : "Send Message"}
-            </button>
-          </form>
-        </div>
-
-        {/* Contact Info */}
-        <div className="mt-12 grid md:grid-cols-3 gap-6">
-          <div className="text-center p-6 bg-white/5 rounded-lg border border-white/10">
-            <h3 className="text-lg font-semibold mb-2">Email</h3>
-            <p className="text-indigo-300">contact@example.com</p>
-          </div>
-          <div className="text-center p-6 bg-white/5 rounded-lg border border-white/10">
-            <h3 className="text-lg font-semibold mb-2">Location</h3>
-            <p className="text-indigo-300">Toronto, Canada</p>
-          </div>
-          <div className="text-center p-6 bg-white/5 rounded-lg border border-white/10">
-            <h3 className="text-lg font-semibold mb-2">LinkedIn</h3>
-            <p className="text-indigo-300">linkedin.com/in/example</p>
+                <a
+                  href={contact.link}
+                  target={contact.link.startsWith("http") ? "_blank" : "_self"}
+                  rel={
+                    contact.link.startsWith("http") ? "noopener noreferrer" : ""
+                  }
+                  className="block p-6 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 hover:border-indigo-400/50 hover:bg-white/15 transition-all duration-300 text-center group"
+                >
+                  <div className="text-indigo-400 mb-4 group-hover:text-indigo-300 transition-colors duration-300">
+                    {contact.icon}
+                  </div>
+                  <h3 className="text-lg font-semibold mb-2 text-white">
+                    {contact.title}
+                  </h3>
+                  <p className="text-indigo-300 mb-2">{contact.value}</p>
+                  <p className="text-sm text-indigo-400/70">
+                    {contact.description}
+                  </p>
+                </a>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      <Footer />
     </div>
   );
 };

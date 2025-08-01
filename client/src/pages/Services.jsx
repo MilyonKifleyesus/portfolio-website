@@ -16,6 +16,7 @@ import {
   Rocket,
 } from "lucide-react";
 import Silk from "../components/Silk";
+import Footer from "../components/layout/Footer";
 
 /**
  * @typedef {Object} ServiceProps
@@ -216,6 +217,8 @@ const Services = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </div>
   );
 };

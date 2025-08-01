@@ -4,6 +4,7 @@ import { Github, ExternalLink, ArrowRight, Loader2 } from "lucide-react";
 import Silk from "../components/Silk";
 import { motion } from "framer-motion";
 import axios from "axios";
+import Footer from "../components/layout/Footer";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -288,6 +289,8 @@ const Projects = () => {
           </motion.div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };

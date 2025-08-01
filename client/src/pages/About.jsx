@@ -10,6 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
 import Silk from "../components/Silk";
+import Footer from "../components/layout/Footer";
 
 const About = () => {
   // Skills data
@@ -367,6 +368,8 @@ const About = () => {
           </motion.div>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 };
