@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Plus,
@@ -8,21 +8,20 @@ import {
   Briefcase,
   Users,
   MessageSquare,
-  Eye,
   Calendar,
   Mail,
   Phone,
   ExternalLink,
-  Save,
   X,
   Settings,
   BarChart3,
 } from "lucide-react";
 import axios from "axios";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import ProjectForm from "./ProjectForm";
 import QualificationForm from "./QualificationForm";
+import UserManagement from "./UserManagement";
 
 const AdminDashboard = () => {
   const { user, isAuthenticated, isAdmin } = useAuth();
@@ -62,16 +61,22 @@ const AdminDashboard = () => {
       // Get token from localStorage
       const token = localStorage.getItem("token");
 
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
       const [projectsRes, qualificationsRes, contactsRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/projects"),
-        axios.get("http://localhost:5000/api/qualifications"),
-        axios.get("http://localhost:5000/api/contacts"),
+        axios.get("http://localhost:5000/api/projects", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        axios.get("http://localhost:5000/api/qualifications", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        axios.get("http://localhost:5000/api/contacts", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
       ]);
 
       console.log("Projects response:", projectsRes.data);
@@ -204,6 +209,14 @@ const AdminDashboard = () => {
       color: "rose",
       gradient: "from-rose-500 to-pink-500",
     },
+    {
+      id: "users",
+      name: "Users",
+      icon: Users,
+      count: 0, // Will be updated when users are fetched
+      color: "blue",
+      gradient: "from-blue-500 to-cyan-500",
+    },
   ];
 
   console.log("AdminDashboard rendering, loading:", loading, "error:", error);
@@ -214,8 +227,12 @@ const AdminDashboard = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 pt-20">
         <div className="text-center">
           <div className="w-16 h-16 border-4 border-indigo-400 border-t-transparent rounded-full animate-spin mx-auto mb-6"></div>
-          <p className="text-indigo-200 text-lg font-medium">Checking authentication...</p>
-          <p className="text-indigo-300 text-sm mt-2">Please wait while we verify your access</p>
+          <p className="text-indigo-200 text-lg font-medium">
+            Checking authentication...
+          </p>
+          <p className="text-indigo-300 text-sm mt-2">
+            Please wait while we verify your access
+          </p>
         </div>
       </div>
     );
@@ -647,6 +664,9 @@ const AdminDashboard = () => {
                 )}
               </div>
             )}
+
+            {/* Users Tab */}
+            {activeTab === "users" && <UserManagement />}
           </div>
         </div>
       </div>

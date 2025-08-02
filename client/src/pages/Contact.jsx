@@ -148,7 +148,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20 transition-all duration-300"
-                    placeholder="your.email@example.com"
+                    placeholder="mili.kifleyesus@gmail.com"
                     required
                   />
                 </div>
@@ -219,15 +219,15 @@ const Contact = () => {
               {
                 icon: <Mail size={32} />,
                 title: "Email",
-                value: "milyon.kifleyesus@example.com",
-                link: "mailto:milyon.kifleyesus@example.com",
+                value: "mili.kifleyesus@gmail.com",
+                link: "mailto:mili.kifleyesus@gmail.com",
                 description: "Send me an email anytime",
               },
               {
                 icon: <Phone size={32} />,
                 title: "Phone",
-                value: "+1 (555) 123-4567",
-                link: "tel:+15551234567",
+                value: "6478093271",
+                link: "tel:+16478093271",
                 description: "Call me during business hours",
               },
               {
@@ -241,7 +241,7 @@ const Contact = () => {
                 icon: <Linkedin size={32} />,
                 title: "LinkedIn",
                 value: "linkedin.com/in/milyon",
-                link: "https://linkedin.com/in/milyon",
+                link: "https://www.linkedin.com/in/milyon-kifleyesus-9170b1364?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app ",
                 description: "Connect with me professionally",
               },
             ].map((contact, index) => (

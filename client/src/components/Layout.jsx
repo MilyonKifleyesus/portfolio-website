@@ -1,7 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
-// import Silk from "./Silk"; // Temporarily disabled
-import Footer from "./layout/Footer";
+import { useEffect, useState } from "react";
 
 const Layout = () => {
   const [mounted, setMounted] = useState(false);
@@ -43,11 +40,8 @@ const Layout = () => {
 
       {/* Content container */}
       <main className="relative flex-grow z-10">
-        <Outlet />
+        {/* Content will be rendered here by React Router */}
       </main>
-
-      {/* Footer */}
-      <Footer className="relative z-10" />
     </div>
   );
 };

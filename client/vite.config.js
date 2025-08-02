@@ -7,7 +7,6 @@ export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     include: ["react", "react-dom", "react-router-dom"],
-    exclude: ["@react-three/drei", "@react-three/fiber", "three"],
   },
   build: {
     target: "esnext",
@@ -19,7 +18,6 @@ export default defineConfig({
           router: ["react-router-dom"],
           animations: ["framer-motion"],
           icons: ["lucide-react"],
-          three: ["@react-three/drei", "@react-three/fiber", "three"],
         },
       },
     },

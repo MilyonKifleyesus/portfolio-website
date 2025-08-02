@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 export const AnimatedText = ({
@@ -89,12 +89,7 @@ export const ScrollReveal = ({
   );
 };
 
-export const SplitText = ({
-  text,
-  animation = "chars",
-  tag: Tag = "span",
-  className,
-}) => {
+export const SplitText = ({ text, tag: Tag = "span", className }) => {
   const characters = text.split("");
 
   const containerVariants = {

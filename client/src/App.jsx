@@ -1,5 +1,4 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/layout/Navbar";
 import Home from "./pages/Home";
@@ -12,7 +11,36 @@ import SignUp from "./components/auth/SignUp";
 import AdminDashboard from "./components/admin/AdminDashboard";
 import { useState, useEffect } from "react";
 
-function App() {
+// Create router with future flags for v7 behavior
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <AppLayout />,
+      children: [
+        { index: true, element: <Home /> },
+        { path: "about", element: <About /> },
+        { path: "projects", element: <Projects /> },
+        { path: "services", element: <Services /> },
+        { path: "contact", element: <Contact /> },
+        { path: "signin", element: <SignIn /> },
+        { path: "signup", element: <SignUp /> },
+        { path: "admin", element: <AdminDashboard /> },
+      ],
+    },
+  ],
+  {
+    future: {
+      v7_startTransition: true,
+      v7_relativeSplatPath: true,
+    },
+    // Note: The warning about startTransition is expected and indicates
+    // that the future flags are working correctly for React Router v7
+  }
+);
+
+// Layout component that includes the Navbar
+function AppLayout() {
   const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
@@ -30,22 +58,17 @@ function App() {
   };
 
   return (
+    <div className="App">
+      <Navbar theme={theme} toggleTheme={toggleTheme} />
+      <Outlet />
+    </div>
+  );
+}
+
+function App() {
+  return (
     <AuthProvider>
-      <Router>
-        <div className="App">
-          <Navbar theme={theme} toggleTheme={toggleTheme} />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-          </Routes>
-        </div>
-      </Router>
+      <RouterProvider router={router} />
     </AuthProvider>
   );
 }

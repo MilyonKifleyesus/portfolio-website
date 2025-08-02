@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import "./ProfileCard.css";
 
@@ -11,7 +11,6 @@ const ProfileCard = ({
   avatarUrl,
   showUserInfo = true,
   enableTilt = true,
-  onContactClick,
 }) => {
   const cardRef = useRef(null);
   const containerRef = useRef(null);

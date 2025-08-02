@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { X, Plus, Edit, Trash2, Save, AlertCircle } from "lucide-react";
+import { X, Plus, Edit, AlertCircle } from "lucide-react";
 import axios from "axios";
 
 const ProjectForm = ({ project = null, onClose, onSuccess }) => {

@@ -1,18 +1,23 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowDownToLine,
   GraduationCap,
   Briefcase,
-  Award,
   ArrowRight,
+  Loader2,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import ProfileCard from "../components/ProfileCard";
 import Silk from "../components/Silk";
 import Footer from "../components/layout/Footer";
+import axios from "axios";
 
 const About = () => {
+  const [qualifications, setQualifications] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
   // Skills data
   const skills = [
     { name: "HTML/CSS/JavaScript", percentage: 90 },
@@ -23,19 +28,8 @@ const About = () => {
     { name: "Software Engineering", percentage: 85 },
   ];
 
-  // Education data
-  const education = [
-    {
-      period: "2024 - Present",
-      degree: "Advanced Diploma in Software Engineering Technology (Co-op)",
-      institution: "Centennial College",
-      description:
-        "Specializing in client-side web development, programming, and database concepts. Expected graduation: 2027",
-    },
-  ];
-
-  // Experience data
-  const experience = [
+  // Fallback experience data (if no qualifications from API)
+  const fallbackExperience = [
     {
       period: "2021 - Present",
       role: "Delivery Driver",
@@ -52,9 +46,98 @@ const About = () => {
     },
   ];
 
+  // Fetch qualifications from API
+  useEffect(() => {
+    const fetchQualifications = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        console.log("Fetching qualifications from API...");
+        const response = await axios.get(
+          "http://localhost:5000/api/qualifications"
+        );
+
+        console.log("API Response:", response.data);
+        console.log("Qualifications count:", response.data.count);
+        console.log("Qualifications data:", response.data.data);
+
+        if (response.data.success) {
+          setQualifications(response.data.data);
+          console.log("Qualifications state updated:", response.data.data);
+
+          // Debug: Log filtered qualifications
+          const education = response.data.data.filter(
+            (q) => q.type === "education"
+          );
+          const experience = response.data.data.filter(
+            (q) => q.type === "experience"
+          );
+          const certification = response.data.data.filter(
+            (q) => q.type === "certification"
+          );
+
+          console.log("Education qualifications:", education);
+          console.log("Experience qualifications:", experience);
+          console.log("Certification qualifications:", certification);
+        } else {
+          console.error("API returned error:", response.data);
+          setError("Failed to load qualifications");
+        }
+      } catch (error) {
+        console.error("Error fetching qualifications:", error);
+        setError("Failed to load qualifications from server");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchQualifications();
+  }, []);
+
   const handleContactClick = () => {
     // Navigate to contact section or open contact modal
     console.log("Contact clicked");
+  };
+
+  // Filter qualifications by type
+  const educationQualifications = qualifications.filter(
+    (q) => q.type === "education"
+  );
+  const certificationQualifications = qualifications.filter(
+    (q) => q.type === "certification"
+  );
+  const experienceQualifications = qualifications.filter(
+    (q) => q.type === "experience"
+  );
+
+  // Debug logging
+  console.log("Current qualifications state:", qualifications);
+  console.log(
+    "Education qualifications count:",
+    educationQualifications.length
+  );
+  console.log(
+    "Experience qualifications count:",
+    experienceQualifications.length
+  );
+  console.log(
+    "Certification qualifications count:",
+    certificationQualifications.length
+  );
+
+  // Format date for display
+  const formatDate = (dateString) => {
+    if (!dateString) return "Present";
+    const date = new Date(dateString);
+    return date.getFullYear();
+  };
+
+  // Format period for display
+  const formatPeriod = (startDate, endDate) => {
+    const start = formatDate(startDate);
+    const end = formatDate(endDate);
+    return `${start} - ${end}`;
   };
 
   return (
@@ -244,6 +327,15 @@ const About = () => {
       <section className="section-padding relative">
         <div className="absolute inset-0 bg-white/30 dark:bg-dark-900/30 backdrop-blur-[4px]"></div>
         <div className="container-custom relative">
+          {/* Debug Info - Remove this after testing */}
+          <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+            <p className="text-blue-400 text-sm">
+              <strong>Debug Info:</strong> Loading: {loading.toString()}, Error:{" "}
+              {error || "None"}, Total Qualifications: {qualifications.length},
+              Education: {educationQualifications.length}, Experience:{" "}
+              {experienceQualifications.length}
+            </p>
+          </div>
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -268,34 +360,76 @@ const About = () => {
                   className="text-primary-500 dark:text-primary-400 mr-3"
                 />
                 <h3 className="text-lg font-bold text-dark-900 dark:text-white">
-                  Education
+                  Education ({educationQualifications.length} records)
                 </h3>
               </div>
               <div className="space-y-6">
-                {education.map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    className="relative pl-8 border-l-2 border-dark-200 dark:border-dark-700"
-                  >
-                    <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary-500 dark:bg-primary-400"></div>
-                    <span className="text-sm text-primary-500 dark:text-primary-400 font-medium mb-2 block">
-                      {item.period}
-                    </span>
-                    <h4 className="text-lg font-semibold text-dark-900 dark:text-white mb-2">
-                      {item.degree}
-                    </h4>
-                    <p className="text-dark-600 dark:text-dark-300 mb-2">
-                      {item.institution}
+                {loading ? (
+                  <div className="text-center py-8">
+                    <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary-500" />
+                    <p className="text-dark-600 dark:text-dark-300">
+                      Loading education...
                     </p>
-                    <p className="text-dark-500 dark:text-dark-400 text-sm">
-                      {item.description}
+                  </div>
+                ) : error ? (
+                  <div className="text-center py-8">
+                    <p className="text-red-500 dark:text-red-400 mb-4">
+                      {error}
                     </p>
-                  </motion.div>
-                ))}
+                    <p className="text-dark-600 dark:text-dark-300 text-sm">
+                      Using fallback data while we fix the connection.
+                    </p>
+                  </div>
+                ) : educationQualifications.length > 0 ? (
+                  educationQualifications.map((qualification, index) => (
+                    <motion.div
+                      key={qualification._id}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="relative pl-8 border-l-2 border-dark-200 dark:border-dark-700"
+                    >
+                      <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary-500 dark:bg-primary-400"></div>
+                      <span className="text-sm text-primary-500 dark:text-primary-400 font-medium mb-2 block">
+                        {formatPeriod(
+                          qualification.startDate,
+                          qualification.endDate
+                        )}
+                      </span>
+                      <h4 className="text-lg font-semibold text-dark-900 dark:text-white mb-2">
+                        {qualification.degree}
+                      </h4>
+                      <p className="text-dark-600 dark:text-dark-300 mb-2">
+                        {qualification.institution}
+                      </p>
+                      <p className="text-dark-500 dark:text-dark-400 text-sm mb-2">
+                        {qualification.field}
+                      </p>
+                      {qualification.grade && (
+                        <p className="text-dark-500 dark:text-dark-400 text-sm mb-2">
+                          Grade: {qualification.grade}
+                        </p>
+                      )}
+                      {qualification.description && (
+                        <p className="text-dark-500 dark:text-dark-400 text-sm">
+                          {qualification.description}
+                        </p>
+                      )}
+                    </motion.div>
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-dark-600 dark:text-dark-300">
+                      No education records found.
+                      <br />
+                      <span className="text-sm text-dark-500 dark:text-dark-400">
+                        Admin can add education records through the admin
+                        dashboard.
+                      </span>
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -307,37 +441,130 @@ const About = () => {
                   className="text-primary-500 dark:text-primary-400 mr-3"
                 />
                 <h3 className="text-lg font-bold text-dark-900 dark:text-white">
-                  Experience
+                  Experience ({experienceQualifications.length} records)
                 </h3>
               </div>
               <div className="space-y-6">
-                {experience.map((item, index) => (
+                {loading ? (
+                  <div className="text-center py-8">
+                    <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-primary-500" />
+                    <p className="text-dark-600 dark:text-dark-300">
+                      Loading experience...
+                    </p>
+                  </div>
+                ) : error ? (
+                  <div className="text-center py-8">
+                    <p className="text-red-500 dark:text-red-400 mb-4">
+                      {error}
+                    </p>
+                    <p className="text-dark-600 dark:text-dark-300 text-sm">
+                      Using fallback data while we fix the connection.
+                    </p>
+                  </div>
+                ) : experienceQualifications.length > 0 ? (
+                  experienceQualifications.map((qualification, index) => (
+                    <motion.div
+                      key={qualification._id}
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="relative pl-8 border-l-2 border-dark-200 dark:border-dark-700"
+                    >
+                      <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary-500 dark:bg-primary-400"></div>
+                      <span className="text-sm text-primary-500 dark:text-primary-400 font-medium mb-2 block">
+                        {formatPeriod(
+                          qualification.startDate,
+                          qualification.endDate
+                        )}
+                      </span>
+                      <h4 className="text-lg font-semibold text-dark-900 dark:text-white mb-2">
+                        {qualification.degree}
+                      </h4>
+                      <p className="text-dark-600 dark:text-dark-300 mb-2">
+                        {qualification.institution}
+                      </p>
+                      {qualification.description && (
+                        <p className="text-dark-500 dark:text-dark-400 text-sm">
+                          {qualification.description}
+                        </p>
+                      )}
+                    </motion.div>
+                  ))
+                ) : (
+                  fallbackExperience.map((item, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, x: 20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="relative pl-8 border-l-2 border-dark-200 dark:border-dark-700"
+                    >
+                      <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary-500 dark:bg-primary-400"></div>
+                      <span className="text-sm text-primary-500 dark:text-primary-400 font-medium mb-2 block">
+                        {item.period}
+                      </span>
+                      <h4 className="text-lg font-semibold text-dark-900 dark:text-white mb-2">
+                        {item.role}
+                      </h4>
+                      <p className="text-dark-600 dark:text-dark-300 mb-2">
+                        {item.company}
+                      </p>
+                      <p className="text-dark-500 dark:text-dark-400 text-sm">
+                        {item.description}
+                      </p>
+                    </motion.div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Certifications Section (if any) */}
+          {certificationQualifications.length > 0 && (
+            <div className="mt-12">
+              <div className="flex items-center mb-6">
+                <Briefcase
+                  size={20}
+                  className="text-primary-500 dark:text-primary-400 mr-3"
+                />
+                <h3 className="text-lg font-bold text-dark-900 dark:text-white">
+                  Certifications
+                </h3>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                {certificationQualifications.map((qualification, index) => (
                   <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: 20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    key={qualification._id}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="relative pl-8 border-l-2 border-dark-200 dark:border-dark-700"
+                    className="p-6 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10"
                   >
-                    <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-primary-500 dark:bg-primary-400"></div>
-                    <span className="text-sm text-primary-500 dark:text-primary-400 font-medium mb-2 block">
-                      {item.period}
-                    </span>
                     <h4 className="text-lg font-semibold text-dark-900 dark:text-white mb-2">
-                      {item.role}
+                      {qualification.degree}
                     </h4>
                     <p className="text-dark-600 dark:text-dark-300 mb-2">
-                      {item.company}
+                      {qualification.institution}
                     </p>
-                    <p className="text-dark-500 dark:text-dark-400 text-sm">
-                      {item.description}
+                    <p className="text-sm text-primary-500 dark:text-primary-400 mb-2">
+                      {formatPeriod(
+                        qualification.startDate,
+                        qualification.endDate
+                      )}
                     </p>
+                    {qualification.description && (
+                      <p className="text-dark-500 dark:text-dark-400 text-sm">
+                        {qualification.description}
+                      </p>
+                    )}
                   </motion.div>
                 ))}
               </div>
             </div>
-          </div>
+          )}
         </div>
       </section>
 
