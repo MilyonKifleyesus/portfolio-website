@@ -220,6 +220,13 @@ const About = () => {
                 technologies. I have a particular interest in database
                 management and UI/UX design.
               </p>
+              <p className="text-dark-600 dark:text-dark-300 mb-4">
+                I'm passionate about modern software development practices including 
+                Continuous Integration and Continuous Deployment (CI/CD), version control 
+                with Git, and automated testing. I believe in writing clean, maintainable 
+                code and following industry best practices to deliver high-quality software 
+                solutions that scale effectively.
+              </p>
 
               <div className="grid grid-cols-2 gap-6 mb-6">
                 <div>
