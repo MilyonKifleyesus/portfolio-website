@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Github, ExternalLink, ArrowRight, Loader2 } from "lucide-react";
 import Silk from "../components/Silk";
@@ -175,6 +175,7 @@ const Projects = () => {
                   border: "1px solid rgba(255, 255, 255, 0.1)",
                   boxShadow: "0 8px 32px rgba(0, 0, 0, 0.05)",
                 }}
+                data-testid="project-card"
               >
                 <div className="grid md:grid-cols-2 gap-8 relative z-10 p-8">
                   <div className="h-64 md:h-auto relative overflow-hidden rounded-2xl">
@@ -241,6 +242,7 @@ const Projects = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="px-4 py-2 rounded-full bg-gradient-to-r from-indigo-400 to-violet-400 text-white flex items-center hover:opacity-90 transition-opacity"
+                          data-testid="github-link"
                         >
                           <Github size={18} className="mr-2" />
                           View Code
@@ -252,6 +254,7 @@ const Projects = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           className="px-4 py-2 rounded-full border border-indigo-400/20 text-indigo-300 flex items-center hover:bg-indigo-400/10 transition-colors"
+                          data-testid="live-link"
                         >
                           <ExternalLink size={18} className="mr-2" />
                           Live Demo
@@ -283,6 +286,7 @@ const Projects = () => {
             <Link
               to="/contact"
               className="px-6 py-3 rounded-full bg-gradient-to-r from-indigo-400 to-violet-400 text-white inline-flex items-center hover:opacity-90 transition-opacity"
+              data-testid="contact-link"
             >
               Let's Work Together <ArrowRight size={18} className="ml-2" />
             </Link>
