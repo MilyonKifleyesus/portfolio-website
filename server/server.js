@@ -25,6 +25,11 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 // Import config
 const config = require("../config/config.js");
 
+// Handle React routing, return all requests to React app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../client/dist", "index.html"));
+});
+
 // MongoDB connection
 mongoose
   .connect(process.env.MONGODB_URI || config.mongoUri, {

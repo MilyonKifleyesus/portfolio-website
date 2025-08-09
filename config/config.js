@@ -4,7 +4,7 @@ const config = {
   jwtSecret: process.env.JWT_SECRET || "portfolio_secret_key",
   mongoUri:
     process.env.MONGODB_URI ||
-    "mongodb+srv://millikifleyesus:PZzRf84p2NJcX4tG@portfolio.26fxw3c.mongodb.net/?retryWrites=true&w=majority&appName=Portfolio" ||
+    "mongodb+srv://millikifleyesus:Hope4thebest@portfolio.26fxw3c.mongodb.net/portfolio?retryWrites=true&w=majority" ||
     "mongodb://localhost:27017/portfolio",
 };
 
