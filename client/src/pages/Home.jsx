@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -47,20 +46,6 @@ const Home = () => {
               development, database management, and creating user-friendly
               applications.
             </p>
-
-            {/* CI/CD Demo Paragraph - Added for Assignment 4 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="mb-8"
-            >
-              <p className="text-sm md:text-base text-indigo-400/80 max-w-2xl mx-auto bg-indigo-900/20 border border-indigo-400/20 rounded-lg p-4">
-                🚀 <strong>CI/CD Demo:</strong> This paragraph demonstrates automated deployment! 
-                When this feature branch is merged to main, it will automatically deploy to Render 
-                thanks to our CI/CD pipeline. Watch the magic happen! ✨
-              </p>
-            </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
