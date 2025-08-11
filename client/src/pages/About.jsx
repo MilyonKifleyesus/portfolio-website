@@ -12,6 +12,7 @@ import ProfileCard from "../components/ProfileCard";
 import Silk from "../components/Silk";
 import Footer from "../components/layout/Footer";
 import axios from "axios";
+import { API_ENDPOINTS } from "../config/api";
 
 const About = () => {
   const [qualifications, setQualifications] = useState([]);
@@ -54,9 +55,7 @@ const About = () => {
         setError("");
 
         console.log("Fetching qualifications from API...");
-        const response = await axios.get(
-          "http://localhost:5000/api/qualifications"
-        );
+        const response = await axios.get(API_ENDPOINTS.QUALIFICATIONS);
 
         console.log("API Response:", response.data);
         console.log("Qualifications count:", response.data.count);
@@ -221,10 +220,11 @@ const About = () => {
                 management and UI/UX design.
               </p>
               <p className="text-dark-600 dark:text-dark-300 mb-4">
-                I'm passionate about modern software development practices including 
-                Continuous Integration and Continuous Deployment (CI/CD), version control 
-                with Git, and automated testing. I believe in writing clean, maintainable 
-                code and following industry best practices to deliver high-quality software 
+                I'm passionate about modern software development practices
+                including Continuous Integration and Continuous Deployment
+                (CI/CD), version control with Git, and automated testing. I
+                believe in writing clean, maintainable code and following
+                industry best practices to deliver high-quality software
                 solutions that scale effectively.
               </p>
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { X, Plus, Edit, AlertCircle } from "lucide-react";
 import axios from "axios";
+import { API_ENDPOINTS } from "../../config/api";
 
 const QualificationForm = ({ qualification = null, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -80,9 +81,9 @@ const QualificationForm = ({ qualification = null, onClose, onSuccess }) => {
     setSubmitError("");
 
     try {
-      const url = qualification
-        ? `http://localhost:5000/api/qualifications/${qualification._id}`
-        : "http://localhost:5000/api/qualifications";
+      const url = qualification._id
+        ? `${API_ENDPOINTS.QUALIFICATIONS}/${qualification._id}`
+        : API_ENDPOINTS.QUALIFICATIONS;
 
       const method = qualification ? "put" : "post";
 

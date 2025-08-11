@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Mail,
   MapPin,
@@ -10,6 +10,7 @@ import {
 import Silk from "../components/Silk";
 import Footer from "../components/layout/Footer";
 import { motion } from "framer-motion";
+import { API_ENDPOINTS } from "../config/api";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +27,7 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/contacts", {
+      const response = await fetch(API_ENDPOINTS.CONTACTS, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

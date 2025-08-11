@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { X, Plus, Edit, AlertCircle } from "lucide-react";
 import axios from "axios";
+import { API_ENDPOINTS } from "../../config/api";
 
 const ProjectForm = ({ project = null, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -71,9 +72,9 @@ const ProjectForm = ({ project = null, onClose, onSuccess }) => {
     setSubmitError("");
 
     try {
-      const url = project
-        ? `http://localhost:5000/api/projects/${project._id}`
-        : "http://localhost:5000/api/projects";
+      const url = project._id
+        ? `${API_ENDPOINTS.PROJECTS}/${project._id}`
+        : API_ENDPOINTS.PROJECTS;
 
       const method = project ? "put" : "post";
 

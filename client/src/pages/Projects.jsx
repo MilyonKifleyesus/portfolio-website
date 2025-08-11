@@ -5,6 +5,7 @@ import Silk from "../components/Silk";
 import { motion } from "framer-motion";
 import axios from "axios";
 import Footer from "../components/layout/Footer";
+import { API_ENDPOINTS } from "../config/api";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -18,7 +19,7 @@ const Projects = () => {
         setLoading(true);
         console.log("Fetching projects from API...");
 
-        const response = await axios.get("http://localhost:5000/api/projects");
+        const response = await axios.get(API_ENDPOINTS.PROJECTS);
         console.log("API Response:", response.data);
 
         if (response.data.success) {
